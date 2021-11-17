@@ -24,16 +24,21 @@ button {
   background-color: white;
   font-weight: 600;
   font-size: 16px;
-  color: rgb(93, 95, 126);
+  color: rgba(82, 94, 133, 0.925);
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
-.load-more {
+.btn__div {
   display: flex;
-  margin: 20px auto 20px auto;
-  background-color: rgb(46, 57, 212);
-  color: aliceblue;
+  justify-content: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
+.load-more {
+  background-color: rgb(46, 57, 212);
+  color: #f8fafc;
+}
+
 input {
   border-radius: 4px;
 }
@@ -66,14 +71,13 @@ input {
 .info {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 }
 .info-item {
   display: flex;
   flex-direction: column;
-  color: rgb(55, 55, 145);
+  color: rgb(46, 57, 212);
   font-weight: 600;
 }
 

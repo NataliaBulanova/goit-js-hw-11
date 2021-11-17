@@ -10,8 +10,6 @@ const PER_PAGE = 40;
 const PARAMETER = `&image_type=photo&orientation=horizontal&safesearch=true&per_page=${PER_PAGE}`;
 let value = '';
 let page;
-let pagesAmount = Math.floor(500 / PER_PAGE);
-console.log(pagesAmount);
 loadMoreBTN.hidden = true;
 function fetchImages(value, page) {
   return fetch(`${URL}&q=${value}${PARAMETER}&page=${page}`).then(response => response.json());
