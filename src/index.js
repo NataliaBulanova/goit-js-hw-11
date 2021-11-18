@@ -79,37 +79,36 @@ function createMarkup({ hits, totalHits }) {
   const imagesMarkup = hits
     .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
       return `<a class="gallery__item" href="${largeImageURL}"><div class="photo-card">
-  <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" width="360px" />
-  <div class="info">
+    <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" width="360px" />
+    <div class="info">
     <p class="info-item">
-      <b>Likes</b>${likes}
+    <b>Likes</b>${likes}
     </p>
     <p class="info-item">
-      <b>Views</b>${views}
+    <b>Views</b>${views}
     </p>
     <p class="info-item">
-      <b>Comments</b>${comments}
+    <b>Comments</b>${comments}
     </p>
     <p class="info-item">
-      <b>Downloads</b>${downloads}
+    <b>Downloads</b>${downloads}
     </p>
-  </div>
-</div></a>`;
+    </div>
+    </div></a>`;
     })
     .join('');
   container.insertAdjacentHTML('beforeend', imagesMarkup);
+  if (page === pageLimit) {
+    setTimeout(() => {
+      Notify.info("We're sorry, but you've reached the end of search results.");
+      loadMoreBTN.hidden = true;
+    }, 0);
+  }
   let lightbox = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionDelay: 300,
   });
   lightbox.refresh();
-
-  if (page === pageLimit) {
-    setTimeout(() => {
-      Notify.info("We're sorry, but you've reached the end of search results.");
-    }, 1000);
-    loadMoreBTN.hidden = true;
-  }
 }
 
 container.addEventListener('click', e => {
