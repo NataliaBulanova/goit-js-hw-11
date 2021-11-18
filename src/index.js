@@ -1,51 +1,77 @@
 import './css/styles.css';
+import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 const container = document.querySelector('.gallery');
 const form = document.querySelector('#search-form');
 const loadMoreBTN = document.querySelector('.load-more');
+
 const URL = 'https://pixabay.com/api/?key=24354649-5345b0d4fac46ed3dd7873120';
 const PER_PAGE = 40;
 const PARAMETER = `&image_type=photo&orientation=horizontal&safesearch=true&per_page=${PER_PAGE}`;
+
 let value = '';
 let page;
 loadMoreBTN.hidden = true;
-function fetchImages(value, page) {
-  return fetch(`${URL}&q=${value}${PARAMETER}&page=${page}`).then(response => response.json());
+
+async function fetchImages(value, page) {
+  const response = await axios.get(`${URL}&q=${value}${PARAMETER}&page=${page}`);
+  const images = await response.data;
+  return images;
 }
 form.addEventListener('submit', onSubmit);
-function onSubmit(e) {
+async function onSubmit(e) {
   e.preventDefault();
   container.innerHTML = '';
   page = 1;
   value = form.elements.searchQuery.value;
   if (!value.trim()) {
+    loadMoreBTN.hidden = true;
     Notify.info('Please, write something');
     return;
   }
-  fetchImages(value, page)
-    .then(images => {
-      if (!images.totalHits) {
-        Notify.failure('Sorry, no matches were found for your query.');
-        return;
-      }
-      Notify.success(`Hooray! We found ${images.totalHits} images.`);
-      createMarkup(images);
-      loadMoreBTN.hidden = false;
-    })
-    .catch(error => error);
+  try {
+    const { hits, totalHits } = await fetchImages(value, page);
+    if (!totalHits) {
+      loadMoreBTN.hidden = true;
+      Notify.failure('Sorry, no matches were found for your query.');
+      return;
+    }
+    Notify.success(`Hooray! We found ${totalHits} images.`);
+    createMarkup({ hits, totalHits });
+    loadMoreBTN.hidden = false;
+  } catch (error) {
+    console.log(error.message);
+  }
+  // fetchImages(value, page)
+  //   .then(images => {
+  //     if (!images.totalHits) {
+  //       Notify.failure('Sorry, no matches were found for your query.');
+  //       return;
+  //     }
+  //     Notify.success(`Hooray! We found ${images.totalHits} images.`);
+  //     createMarkup(images);
+  //     loadMoreBTN.hidden = false;
+  //   })
+  //   .catch(error => error);
 }
 
 loadMoreBTN.addEventListener('click', onBtnClick);
-function onBtnClick() {
+async function onBtnClick() {
   page += 1;
   console.log(page);
-  fetchImages(value, page)
-    .then(images => {
-      createMarkup(images);
-    })
-    .catch(error => error);
+  try {
+    const images = await fetchImages(value, page);
+    createMarkup(images);
+  } catch (error) {
+    console.log(error.message);
+  }
+  // fetchImages(value, page)
+  //   .then(images => {
+  //     createMarkup(images);
+  //   })
+  //   .catch(error => error);
 }
 
 function createMarkup({ hits, totalHits }) {
