@@ -79,7 +79,7 @@ function createMarkup({ hits, totalHits }) {
   const imagesMarkup = hits
     .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
       return `<a class="gallery__item" href="${largeImageURL}"><div class="photo-card">
-    <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" width="360px" />
+    <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" width="360px" height="240px" />
     <div class="info">
     <p class="info-item">
     <b>Likes</b>${likes}

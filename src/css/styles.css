@@ -69,6 +69,11 @@ input {
   transition: transform var(--animation-duration) var(--timing-function);
 }
 
+.gallery__image {
+  max-width: 100%;
+  object-fit: cover;
+}
+
 .info {
   display: flex;
   flex-direction: row;
