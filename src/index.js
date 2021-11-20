@@ -67,6 +67,14 @@ async function onBtnClick() {
   } catch (error) {
     console.log(error.message);
   }
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+  console.log({ height: cardHeight });
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
   // fetchImages(value, page)
   //   .then(images => {
   //     createMarkup(images);
